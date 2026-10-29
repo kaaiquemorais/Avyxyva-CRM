@@ -69,19 +69,6 @@
         <div class="vazio" id="pend-vazia" hidden>Nenhuma pendência cadastrada.</div></section>
     </main>
 
-    <aside class="chat vidro" aria-label="Conversa com o Claude">
-      <div class="chat-top"><div class="orb" aria-hidden="true"></div><div><b>Claude</b><span id="chat-estado">Conhece os posts, pendências e datas do CRM</span></div></div>
-      <div class="atalhos">
-        <button type="button" data-p="O que eu preciso fazer hoje? Me dê uma lista curta em ordem de prioridade.">O que faço hoje?</button>
-        <button type="button" data-p="Faça um resumo da semana: o que está pronto, o que falta e o que pode atrasar.">Resumo da semana</button>
-        <button type="button" data-p="O que está atrasado ou travado esperando o cliente? Diga o que eu devo cobrar de quem.">O que cobrar?</button>
-      </div>
-      <div class="msgs" id="msgs" aria-live="polite"></div>
-      <form class="envio" id="envio">
-        <textarea id="pergunta" rows="1" aria-label="Pergunte ao Claude" placeholder="Pergunte qualquer coisa sobre os clientes..." maxlength="4000"></textarea>
-        <button id="enviar" type="submit">Enviar</button>
-      </form>
-    </aside>
   </div>
 
   <script type="module" src="/src/main.js"></script>

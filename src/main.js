@@ -261,54 +261,5 @@ function fecharDatas() { $("pop").hidden = true; $("datas-pill").setAttribute("a
 document.addEventListener("click", (ev) => { if (!$("pop").hidden && !ev.target.closest("#pop, #datas-pill, .toast")) fecharDatas(); });
 document.addEventListener("keydown", (ev) => { if (ev.key === "Escape") fecharDatas(); });
 
-/* ---------- chat com o Claude (via função segura no Netlify) ---------- */
-let turnos = [];
-try { turnos = JSON.parse(sessionStorage.getItem("avx-chat") || "[]").slice(-12); } catch (e) { turnos = []; }
-function formatar(t) {
-  const esc = t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  let html = "", lista = false;
-  for (const l of esc.split("\n")) {
-    const m = l.match(/^\s*(?:[•\-*]|\d+[.)])\s+(.*)/);
-    if (m) { if (!lista) { html += "<ul>"; lista = true; } html += "<li>" + m[1] + "</li>"; continue; }
-    if (lista) { html += "</ul>"; lista = false; }
-    html += l.trim() ? l + "<br>" : "<br>";
-  }
-  if (lista) html += "</ul>";
-  return html.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
-}
-function bolha(papel, texto) {
-  const b = el("div", { class: "msg " + papel });
-  if (papel === "ia") b.innerHTML = formatar(texto); else b.textContent = texto;
-  $("msgs").append(b); $("msgs").scrollTop = $("msgs").scrollHeight; return b;
-}
-async function perguntar(texto) {
-  texto = texto.trim().slice(0, 4000);
-  if (!texto || !sessao) return;
-  bolha("eu", texto); turnos.push({ role: "user", content: texto });
-  const b = bolha("ia", "Pensando..."); $("enviar").disabled = true;
-  try {
-    const { data: { session } } = await supabase.auth.getSession();
-    const r = await fetch("/api/claude", {
-      method: "POST",
-      headers: { "content-type": "application/json", authorization: "Bearer " + session.access_token },
-      body: JSON.stringify({ mensagens: turnos.slice(-10) }),
-    });
-    const j = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(j.erro || "Não consegui responder agora.");
-    b.innerHTML = formatar(j.texto);
-    turnos.push({ role: "assistant", content: j.texto });
-    try { sessionStorage.setItem("avx-chat", JSON.stringify(turnos.slice(-12))); } catch (e) {}
-  } catch (e) {
-    turnos.pop();
-    b.textContent = e.message || "Não consegui responder agora. Tente de novo.";
-  }
-  $("enviar").disabled = false;
-}
-turnos.forEach((t) => bolha(t.role === "user" ? "eu" : "ia", t.content));
-if (!turnos.length) bolha("ia", "Oi, Kaique. Eu vejo os posts, as pendências e as datas do CRM. Toque em **O que faço hoje?** ou me pergunte qualquer coisa.");
-$("envio").addEventListener("submit", (ev) => { ev.preventDefault(); const t = $("pergunta").value; $("pergunta").value = ""; perguntar(t); });
-$("pergunta").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); $("envio").requestSubmit(); } });
-document.querySelectorAll(".atalhos button").forEach((b) => { b.onclick = () => perguntar(b.dataset.p); });
-
 // estado inicial (sem sessão, mostra a entrada)
 supabase.auth.getSession().then(({ data: { session } }) => { if (!session) { $("entrada").hidden = false; $("app").hidden = true; } });
