@@ -1,0 +1,17 @@
+{
+  "name": "avyxyva-crm",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
+    "@supabase/supabase-js": "^2.118.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Avyxyva CRM",
+  "short_name": "Avyxyva",
+  "icons": [
+    { "src": "/icone-app-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icone-app-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "start_url": "/",
+  "theme_color": "#45197A",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

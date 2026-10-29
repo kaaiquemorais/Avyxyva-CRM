@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Avyxyva CRM</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#45197A">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:title" content="Avyxyva">
+  <meta property="og:description" content="Social media, tráfego pago e fotografia.">
+  <meta property="og:image" content="https://avyxyva-crm.netlify.app/compartilhar-whatsapp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Sora:wght@500;600&display=swap">
+</head>
+<body>
+  <!-- tela de entrada -->
+  <section class="entrada" id="entrada" hidden>
+    <form class="vidro" id="form-login" novalidate>
+      <img id="logo-login" alt="Avyxyva">
+      <h1>Central Avyxyva</h1>
+      <p>Digite seu e-mail. Enviamos um link de acesso que vale por 15 minutos.</p>
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="email" required maxlength="254">
+      <button id="btn-login" type="submit">Enviar link de acesso</button>
+      <div class="msg-login" id="msg-login" role="status"></div>
+    </form>
+  </section>
+
+  <!-- painel -->
+  <div class="app" id="app" hidden>
+    <main class="col">
+      <header class="topo vidro">
+        <div class="marca"><img class="logo" id="logo-topo" alt=""><div><b>Avyxyva</b><br><span>Central de clientes e conteúdo</span></div></div>
+        <div class="filtros" id="filtros" role="group" aria-label="Filtrar por cliente"></div>
+        <div class="hoje-box">
+          <button class="datas-pill" id="datas-pill" aria-expanded="false" aria-controls="pop" hidden><i></i><span id="datas-txt"></span><small id="datas-mais"></small></button>
+          <div class="hoje" id="hoje"></div>
+          <button class="sair" id="sair" type="button">Sair</button>
+        </div>
+        <div class="pop vidro" id="pop" hidden></div>
+      </header>
+
+      <section class="kpis" aria-label="Resumo">
+        <div class="kpi vidro"><small>Posts no plano</small><div class="v" id="k-total">0</div><div class="sub">até o fim do plano</div></div>
+        <div class="kpi vidro"><small>Prontos ou em arte</small><div class="v" id="k-prontos">0</div><div class="barra"><span id="k-barra"></span></div></div>
+        <div class="kpi vidro"><small>Nesta semana</small><div class="v" id="k-semana">0</div><div class="sub" id="k-semana-sub">posts para sair</div></div>
+        <div class="kpi vidro"><small>Pendências abertas</small><div class="v" id="k-pend">0</div><div class="sub" id="k-pend-sub">esperando clientes</div></div>
+      </section>
+
+      <div class="duas">
+        <section class="secao vidro"><h2>Próximos 7 dias <small id="semana-lbl"></small></h2><div class="semana" id="semana"></div></section>
+        <section class="secao vidro grafico"><h2>Andamento por cliente <small>posts por status</small></h2><div id="grafico"></div><div class="legenda" id="legenda"></div></section>
+      </div>
+
+      <section class="secao vidro"><h2>Pipeline de posts <small>clique no status para avançar</small></h2>
+        <div class="tabela-wrap"><table><thead><tr><th>Data</th><th>Cliente</th><th>Formato</th><th>Tema</th><th>Status</th><th>Falta</th></tr></thead><tbody id="tabela"></tbody></table></div>
+        <div class="vazio" id="tabela-vazia" hidden>Nenhum post cadastrado ainda.</div>
+      </section>
+
+      <section class="secao vidro"><h2>Pendências com os clientes <small id="pend-lbl"></small></h2><div class="pend" id="pend"></div>
+        <div class="vazio" id="pend-vazia" hidden>Nenhuma pendência cadastrada.</div></section>
+    </main>
+
+    <aside class="chat vidro" aria-label="Conversa com o Claude">
+      <div class="chat-top"><div class="orb" aria-hidden="true"></div><div><b>Claude</b><span id="chat-estado">Conhece os posts, pendências e datas do CRM</span></div></div>
+      <div class="atalhos">
+        <button type="button" data-p="O que eu preciso fazer hoje? Me dê uma lista curta em ordem de prioridade.">O que faço hoje?</button>
+        <button type="button" data-p="Faça um resumo da semana: o que está pronto, o que falta e o que pode atrasar.">Resumo da semana</button>
+        <button type="button" data-p="O que está atrasado ou travado esperando o cliente? Diga o que eu devo cobrar de quem.">O que cobrar?</button>
+      </div>
+      <div class="msgs" id="msgs" aria-live="polite"></div>
+      <form class="envio" id="envio">
+        <textarea id="pergunta" rows="1" aria-label="Pergunte ao Claude" placeholder="Pergunte qualquer coisa sobre os clientes..." maxlength="4000"></textarea>
+        <button id="enviar" type="submit">Enviar</button>
+      </form>
+    </aside>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
